@@ -29,7 +29,7 @@ html {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: all 500ms ease-out;
+  transition: transform 500ms ease-out;
 }
 
 .modal h1 {
