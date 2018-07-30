@@ -96,10 +96,15 @@ html {
 }
 
 .letter {
-  background-color: var(--color-success);
+  background-color: var(--color-primary);
   border-radius: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.4rem;
+  font-weight: 400;
+}
+
+.success {
+  background-color: var(--color-success);
 }
