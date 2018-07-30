@@ -1,0 +1,16 @@
+/*********** Variables ************/
+:root {
+  /* Colors */
+  --color-primary: #6699CC;
+  --color-secondary: #FFC857;
+  --color-success: #53DD6C;
+  --color-warning: #EE6055;
+
+}
+
+*,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
