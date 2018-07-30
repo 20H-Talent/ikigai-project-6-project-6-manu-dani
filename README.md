@@ -1,4 +1,4 @@
-# 20H Talent Ikigai Project 7: Build a Game Show App
+# 20H Talent Ikigai Project 6: Build a Game Show App
 
 In this project, you'll create a browser version of “Wheel of Success”, a word guessing game where players will click letters from an onscreen keyboard to try to guess a random phrase.
 
