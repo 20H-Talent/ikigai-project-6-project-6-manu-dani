@@ -81,7 +81,7 @@ html {
 }
 
 .title {
-  margin: 50px auto 20px auto;
+  margin: 20px auto 20px auto;
   text-transform: uppercase;
   color: #000;
 }
@@ -108,4 +108,11 @@ html {
 
 .success {
   background-color: var(--color-success);
+}
+
+#fake-input {
+  position: absolute;
+  height: 18px;
+  bottom: 0px;
+  opacity: 0;
 }
