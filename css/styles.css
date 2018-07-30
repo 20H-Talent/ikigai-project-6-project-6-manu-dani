@@ -64,7 +64,7 @@ html {
 }
 
 .title {
-  margin: 50px auto;
+  margin: 50px auto 20px auto;
   text-transform: uppercase;
   color: #fff;
 }
@@ -72,6 +72,7 @@ html {
 .phrase-display {
   width: 90%;
   height: 35%;
+  margin: 20px auto;
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   grid-template-rows: repeat(6, 1fr);
