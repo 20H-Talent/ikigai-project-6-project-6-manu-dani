@@ -3,34 +3,30 @@ const wheel = (function() {
 
   const startGame = (gameData = defaultGameData) => {
     if (gameData instanceof Object && Object.keys(gameData).length >= 0) {
-      gameData["phrases"] = fetchPhrases();
+      if (!localStorage.getItem("phrases")) {
+        fetchPhrases();
+      }
+      gameData["phrases"] = JSON.parse(localStorage.getItem("phrases"));
       console.log(gameData);
     }
   };
 
   const fetchPhrases = () => {
-    let phrases;
-    if (!localStorage.getItem("phrases")) {
-      const { host, protocol } = window.location;
-      const url = `${protocol}//${host}/js/phrases/phrases.json`;
-      fetch(url, {
-        method: "GET",
-        mode: "same-origin",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        referrer: "no-referrer"
+    const { host, protocol } = window.location;
+    const url = `${protocol}//${host}/js/phrases/phrases.json`;
+    fetch(url, {
+      method: "GET",
+      mode: "same-origin",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      referrer: "no-referrer"
+    })
+      .then(res => res.json())
+      .then(phrases => {
+        localStorage.setItem("phrases", JSON.stringify(phrases));
       })
-        .then(res => res.json())
-        .then(data => {
-          phrases = data;
-          localStorage.setItem("phrases", JSON.stringify(phrases));
-        })
-        .catch(err => console.log(err));
-    } else {
-      phrases = JSON.parse(localStorage.getItem("phrases"));
-    }
-    return phrases;
+      .catch(err => console.log(err));
   };
 
   const randomQueryGenerator = function() {};
