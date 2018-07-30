@@ -14,3 +14,43 @@ html {
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Modal styles */
+.modal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-primary);
+  color: #fff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 500ms ease-out;
+}
+
+.modal h1 {
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  margin-bottom: 10%;
+}
+
+.modal button {
+  padding: 15px;
+  margin-top: 10%;
+  width: 25%;
+  background-color: var(--color-secondary);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.hide {
+  transform: translateX(-100%);
+}
+
+/* Game field styles */
