@@ -3,7 +3,7 @@
   /* Colors */
   --color-primary: #6699CC;
   --color-secondary: #FFC857;
-  --color-success: #53DD6C;
+  --color-success: #80d688;
   --color-warning: #EE6055;
 
 }
@@ -54,3 +54,35 @@ html {
 }
 
 /* Game field styles */
+.game-frame {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  margin: 50px auto;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.phrase-display {
+  width: 90%;
+  height: 35%;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  grid-gap: 5px;
+}
+
+.letter {
+  background-color: var(--color-success);
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+}
