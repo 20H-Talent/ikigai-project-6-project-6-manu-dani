@@ -53,6 +53,21 @@ html {
   transform: translateX(-100%);
 }
 
+/* Life counter */
+.lifes {
+  display: flex;
+  align-items: center;
+}
+
+.lifes i {
+  color: var(--color-warning);
+}
+
+#life-number {
+  font-size: 1.25rem;
+  margin: 0 10px;
+}
+
 /* Game field styles */
 .game-frame {
   width: 100vw;
