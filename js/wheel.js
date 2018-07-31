@@ -2,7 +2,7 @@ const wheel = (function() {
   const gameState = {};
 
   const startGame = (
-    gameData = { lifes: 5, difficulty: "easy", ia: "false" }
+    gameData = { lifes: 5, difficulty: "easy", ia: "false", failed: [] }
   ) => {
     if (gameData instanceof Object && Object.keys(gameData).length >= 0) {
       Object.assign(gameState, gameData);
@@ -53,30 +53,27 @@ const wheel = (function() {
     }).then(res => res.json());
   };
 
-  const isValidUserInput = userInput => {
-    const hasNumber = str => /\d/.test(str);
-    // const aToZLetters = (str) => /[^a-zA-Z]+/.test(str);
-
-    if (
-      typeof userInput === "string" &&
-      userInput.length === 1 &&
-      !hasNumber(userInput)
-    ) {
-      console.log("valid input");
-    } else {
-      console.log("invalid input");
-    }
+  const subtractLife = () => {
+    console.log("perdiste una vida");
   };
+
+  const isValidUserInput = userInput => {
+    const isALetter = str => /[^a-zA-Z]+/.test(str);
+
+    return !isALetter(userInput) && userInput.length === 1;
+  };
+
   const checkUserInput = function(letter) {
-    if (isValidUserInput(letter)) {
-      return true;
-    } else {
-      return false;
-    }
+    return isValidUserInput(letter);
+  };
+
+  const failedUserTry = letter => {
+    gameState["failed"].push(letter);
   };
 
   return {
     start: startGame,
-    checkInput: checkUserInput
+    checkInput: checkUserInput,
+    subtract: subtractLife
   };
 })();

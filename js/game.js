@@ -15,9 +15,10 @@ function showKeyboard() {
 }
 
 function checkLetter() {
-  console.log(input.value);
   if (wheel.checkInput(input.value)) {
     console.log('valid input');
+  } else {
+    wheel.subtract();
   }
   input.value = '';
 }
