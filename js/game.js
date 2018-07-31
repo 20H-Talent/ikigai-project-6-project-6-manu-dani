@@ -11,10 +11,11 @@ gameFrame.addEventListener('click', showKeyboard);
 input.addEventListener('input', checkLetter);
 
 // Display phrase letters on the page
+
 const displayedPhrase = wheel.state.phrase;
-displayedPhrase.map( letter => {
-  display.innerHTML += `<div class="letter">${letter.char}</div>`;
-})
+displayedPhrase.map( (letter, index) => {
+  display.innerHTML += `<div class="${letter.char !== ' ' ? 'letter' : 'empty'}" data-index="${index}">${letter.hidden ? '' : letter.char}</div>`;
+});
 
 
 function showKeyboard() {
