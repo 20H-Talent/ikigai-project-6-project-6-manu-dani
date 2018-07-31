@@ -2,7 +2,7 @@ const wheel = (function() {
   const gameState = {};
 
   const startGame = (
-    gameData = { lifes: 5, difficulty: "easy", ia: "false" }
+    gameData = { lifes: 5, difficulty: "easy", ia: "false", failed: [] }
   ) => {
     if (gameData instanceof Object && Object.keys(gameData).length >= 0) {
       Object.assign(gameState, gameData);
@@ -13,8 +13,9 @@ const wheel = (function() {
             prepareGameData();
           })
           .catch(err => console.log(err));
+      } else {
+        prepareGameData();
       }
-      prepareGameData();
     }
   };
 
@@ -26,8 +27,14 @@ const wheel = (function() {
 
   const randomQueryGenerator = function() {
     const phrases = gameState["phrases"];
+    console.log(
+      "PHRASES: ",
+      phrases,
+      phrases.length,
+      Math.floor(Math.random() * phrases.length - 1)
+    );
     const randomPhrase =
-      phrases[Math.round(Math.random() * phrases.length - 1)].phrase;
+      phrases[Math.floor(Math.random() * phrases.length - 1) + 1].phrase;
     return randomPhrase.split("").map(character => {
       return { char: character, hidden: true };
     });
@@ -52,13 +59,17 @@ const wheel = (function() {
   }
 
   const isValidUserInput = userInput => {
-    const isALetter = (str) => /[^a-zA-Z]+/.test(str);
+    const isALetter = str => /[^a-zA-Z]+/.test(str);
 
-    return (!isALetter(userInput) && userInput.length === 1);
-  }
+    return !isALetter(userInput) && userInput.length === 1;
+  };
 
   const checkUserInput = function(letter) {
     return isValidUserInput(letter);
+  };
+
+  const failedUserTry = letter => {
+    gameState["failed"].push(letter);
   };
 
   return {
