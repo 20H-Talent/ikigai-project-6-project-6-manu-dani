@@ -64,6 +64,7 @@ const wheel = (function() {
   return {
     start: startGame,
     checkInput: checkUserInput,
-    subtract: subtractLife
+    subtract: subtractLife,
+    state: gameState
   };
 })();
