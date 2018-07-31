@@ -1,6 +1,8 @@
 [
   {
-    "active": "false",
     "phrase": "Soy una frase de prueba"
+  },
+  {
+    "phrase": "Otra frase por aqui"
   }
 ]
