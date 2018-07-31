@@ -10,7 +10,6 @@ const wheel = (function() {
           gameData["phrases"] = JSON.parse(localStorage.getItem("phrases"));
         }, 150);
       }
-      console.log(gameData);
     }
   };
 
