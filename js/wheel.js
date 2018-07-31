@@ -14,7 +14,10 @@ const wheel = (function() {
           })
           .catch(err => console.log(err));
       }
+<<<<<<< HEAD
       prepareGameData();
+=======
+>>>>>>> master
     }
   };
 

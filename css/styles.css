@@ -3,9 +3,10 @@
   /* Colors */
   --color-primary: #6699CC;
   --color-secondary: #FFC857;
-  --color-success: #53DD6C;
+  --color-success: #80d688;
   --color-warning: #EE6055;
-
+  --color-keyboard-default: #e8e8e8;
+  --color-keyboard-hover: #454f6a;
 }
 
 *,
@@ -13,6 +14,7 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Modal styles */
@@ -41,16 +43,132 @@ html {
 .modal button {
   padding: 15px;
   margin-top: 10%;
-  width: 25%;
   background-color: var(--color-secondary);
-  color: #fff;
+  color: #000;
   border: none;
   border-radius: 5px;
   text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1rem;
 }
 
 .hide {
   transform: translateX(-100%);
 }
 
+/* Life counter */
+.lifes {
+  display: flex;
+  align-items: center;
+}
+
+.lifes i {
+  color: var(--color-warning);
+}
+
+#life-number {
+  font-size: 1.25rem;
+  margin: 0 10px;
+}
+
 /* Game field styles */
+.game-frame {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  margin: 20px auto 20px auto;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.phrase-display {
+  width: 90%;
+  height: 35%;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  grid-gap: 5px;
+}
+
+.letter {
+  background-color: var(--color-primary);
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 400;
+  min-width: 50px;
+  min-height: 50px;
+}
+
+.success {
+  background-color: var(--color-success);
+}
+
+#fake-input {
+  position: absolute;
+  height: 18px;
+  bottom: 0px;
+  opacity: 0;
+}
+
+/* Display keyboard for desktop screens */
+.keyboard-display {
+  display: none;
+}
+
+@media (min-width: 1050px) {
+  .keyboard-display {
+    display: block;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    margin-bottom: 150px;
+  }
+
+  .row {
+    margin: 5px 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .keyboard-letter {
+    background-color: var(--color-keyboard-default);
+    color: var(--color-keyboard-hover);
+    font-weight: 700;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .keyboard-letter.success {
+    background-color: var(--color-success);
+  }
+  .keyboard-letter.warning {
+    background-color: var(--color-warning);
+    color: var(--color-keyboard-default);
+  }
+
+  .keyboard-letter:hover {
+    background-color: var(--color-keyboard-hover);
+    color: var(--color-keyboard-default);
+  }
+
+  .keyboard-letter:active {
+    -moz-box-shadow:    inset 0 0 10px rgba(0,0,0,.5);
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.5);
+    box-shadow:         inset 0 0 10px rgba(0,0,0,.5);
+  }
+}
