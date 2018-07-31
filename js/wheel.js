@@ -13,8 +13,9 @@ const wheel = (function() {
             prepareGameData();
           })
           .catch(err => console.log(err));
+      } else {
+        prepareGameData();
       }
-      prepareGameData();
     }
   };
 
@@ -26,8 +27,14 @@ const wheel = (function() {
 
   const randomQueryGenerator = function() {
     const phrases = gameState["phrases"];
+    console.log(
+      "PHRASES: ",
+      phrases,
+      phrases.length,
+      Math.floor(Math.random() * phrases.length - 1)
+    );
     const randomPhrase =
-      phrases[Math.round(Math.random() * phrases.length - 1)].phrase;
+      phrases[Math.floor(Math.random() * phrases.length - 1) + 1].phrase;
     return randomPhrase.split("").map(character => {
       return { char: character, hidden: true };
     });
@@ -46,19 +53,20 @@ const wheel = (function() {
     }).then(res => res.json());
   };
 
-  const randomQueryGenerator = function() {};
-
   const isValidUserInput = userInput => {
-    const hasNumber = (str) => /\d/.test(str);
+    const hasNumber = str => /\d/.test(str);
     // const aToZLetters = (str) => /[^a-zA-Z]+/.test(str);
 
-    if (typeof userInput === "string" && userInput.length === 1 && !hasNumber(userInput)) {
-      console.log('valid input');
+    if (
+      typeof userInput === "string" &&
+      userInput.length === 1 &&
+      !hasNumber(userInput)
+    ) {
+      console.log("valid input");
     } else {
-      console.log('invalid input');
+      console.log("invalid input");
     }
-  }
-
+  };
   const checkUserInput = function(letter) {
     if (isValidUserInput(letter)) {
       return true;
