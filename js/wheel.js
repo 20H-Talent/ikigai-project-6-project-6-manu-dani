@@ -5,8 +5,11 @@ const wheel = (function() {
     if (gameData instanceof Object && Object.keys(gameData).length >= 0) {
       if (!localStorage.getItem("phrases")) {
         fetchPhrases();
+        //ASIGNACION DE FRASES TEMPORAL
+        setTimeout(() => {
+          gameData["phrases"] = JSON.parse(localStorage.getItem("phrases"));
+        }, 150);
       }
-      gameData["phrases"] = JSON.parse(localStorage.getItem("phrases"));
       console.log(gameData);
     }
   };
