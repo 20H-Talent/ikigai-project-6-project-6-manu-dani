@@ -36,7 +36,7 @@ const wheel = (function() {
     const randomPhrase =
       phrases[Math.floor(Math.random() * phrases.length - 1) + 1].phrase;
     return randomPhrase.split("").map(character => {
-      return { char: character, hidden: true };
+      return { character, hidden: true };
     });
   };
 
@@ -64,11 +64,26 @@ const wheel = (function() {
   };
 
   const checkUserInput = function(letter) {
-    return isValidUserInput(letter);
+    const successLettersIndex = letterIsOnPhrase(letter);
+    if (isValidUserInput(letter) && successLettersIndex.length > 0) {
+      //Seguir el flujo de exito
+    } else {
+      //Si la letra no está en la frase devolverá el array vacio
+      return successLettersIndex;
+    }
   };
 
-  const failedUserTry = letter => {
-    gameState["failed"].push(letter);
+  const letterIsOnPhrase = letter => {
+    const phrase = gameState["phrase"];
+    const characterIndex = [];
+    phrase.forEach((content, index) => {
+      const { character, hidden } = content;
+      if (hidden && letter === character) {
+        gameState["phrase"][index][hidden] = false;
+        characterIndex.push(index);
+      }
+    });
+    return characterIndex;
   };
 
   return {
