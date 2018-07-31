@@ -6,7 +6,6 @@ const wheel = (function() {
   ) => {
     if (gameData instanceof Object && Object.keys(gameData).length >= 0) {
       Object.assign(gameState, gameData);
-      console.log(gameState);
       if (!localStorage.getItem("phrases")) {
         fetchPhrases()
           .then(phrases => {
@@ -22,13 +21,16 @@ const wheel = (function() {
   const prepareGameData = function() {
     gameState["phrases"] = JSON.parse(localStorage.getItem("phrases"));
     gameState["phrase"] = randomQueryGenerator();
+    console.log(gameState);
   };
 
   const randomQueryGenerator = function() {
     const phrases = gameState["phrases"];
     const randomPhrase =
-      phrases[Math.round(Math.random() * phrases.length - 1)];
-    console.log(randomPhrase);
+      phrases[Math.round(Math.random() * phrases.length - 1)].phrase;
+    return randomPhrase.split("").map(character => {
+      return { char: character, hidden: true };
+    });
   };
 
   const fetchPhrases = () => {
