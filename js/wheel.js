@@ -47,7 +47,8 @@ const wheel = (function() {
   };
 
   const subtractLife = () => {
-    console.log('perdiste una vida');
+    if (gameState.lifes > 0) gameState.lifes--;
+    console.log(gameState);
   }
 
   const isValidUserInput = userInput => {
