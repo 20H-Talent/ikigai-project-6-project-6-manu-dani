@@ -55,7 +55,11 @@ const wheel = (function() {
 
   const subtractLife = () => {
     if (gameState.lifes > 0) gameState.lifes--;
-    console.log(gameState);
+    updateLifesCounter();
+  }
+
+  const updateLifesCounter = () => {
+    document.querySelector('#life-number').textContent = gameState.lifes;
   }
 
   const isValidUserInput = userInput => {
@@ -65,15 +69,12 @@ const wheel = (function() {
   };
 
   const checkUserInput = function(letter) {
-    const successLettersIndex = letterIsOnPhrase(letter);
-    if (isValidUserInput(letter) && successLettersIndex.length > 0) {
-      //Seguir el flujo de exito
-    } else {
-      //Si la letra no está en la frase devolverá el array vacio
-      return successLettersIndex;
+    if (isValidUserInput(letter)) {
+      return letterIsOnPhrase(letter);
     }
   };
 
+  // Hay que pasar los caracteres de la frase a minusculas antes de compararlos para evitar errores
   const letterIsOnPhrase = letter => {
     const phrase = gameState["phrase"];
     const characterIndex = [];
@@ -91,6 +92,7 @@ const wheel = (function() {
     start: startGame,
     checkInput: checkUserInput,
     subtract: subtractLife,
-    state: gameState
+    state: gameState,
+    updateLifes: updateLifesCounter
   };
 })();

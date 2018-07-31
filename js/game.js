@@ -11,24 +11,55 @@ gameFrame.addEventListener('click', showKeyboard);
 input.addEventListener('input', checkLetter);
 
 // Display phrase letters on the page
-
-const displayedPhrase = wheel.state.phrase;
-displayedPhrase.map( (letter, index) => {
-  display.innerHTML += `<div class="${letter.char !== ' ' ? 'letter' : 'empty'}" data-index="${index}">${letter.hidden ? '' : letter.char}</div>`;
-});
-
+const renderPhrase = (phrase) => {
+  phrase.map( (letter, index) => {
+    display.innerHTML += `<div class="${letter.character == ' ' ? 'empty' : 'letter'}" data-index="${index}">${letter.hidden ? '' : letter.character}</div>`;
+  });
+}
 
 function showKeyboard() {
   modal.classList.add('hide');
   input.focus();
 }
 
-function checkLetter() {
-  if (wheel.checkInput(input.value)) {
-    console.log('valid input');
-  } else {
-    wheel.subtract();
+function showLetter(indexes, letter, status) {
+  console.log(`letter "${letter}", at positions ${indexes}`);
+  const keyboardLetter = document.querySelector(`.keyboard-letter[data-key="${letter}"]`);
+
+
+  if (status === 'success') {
+    const phraseLetters = document.querySelectorAll(`.letter`);
+    const correctLetters = [];
+
+    phraseLetters.forEach( char => {
+      if (indexes.includes(parseInt(char.dataset.index))) {
+        correctLetters.push(char);
+      }
+    });
+
+    correctLetters.forEach( char => {
+      char.innerHTML = letter
+      char.classList.add('success');
+    });
+    keyboardLetter.classList.add('success');
+  } else if (status === 'warning') {
+    keyboardLetter.classList.add('warning');
   }
-  input.value = '';
 }
 
+function checkLetter() {
+  const letter = input.value[input.value.length - 1];
+  if (wheel.checkInput(letter).length >= 1) {
+    const indexes = wheel.checkInput(letter);
+    showLetter(indexes, letter, 'success');
+    // input.value = '';
+  } else {
+    wheel.subtract();
+    wheel.state.failed.push(letter);
+    showLetter(null, letter, 'warning');
+    // input.value = '';
+  }
+}
+
+wheel.updateLifes();
+renderPhrase(wheel.state.phrase);
