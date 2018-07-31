@@ -46,29 +46,23 @@ const wheel = (function() {
     }).then(res => res.json());
   };
 
-  const randomQueryGenerator = function() {};
+  const subtractLife = () => {
+    console.log('perdiste una vida');
+  }
 
   const isValidUserInput = userInput => {
-    const hasNumber = (str) => /\d/.test(str);
-    // const aToZLetters = (str) => /[^a-zA-Z]+/.test(str);
+    const isALetter = (str) => /[^a-zA-Z]+/.test(str);
 
-    if (typeof userInput === "string" && userInput.length === 1 && !hasNumber(userInput)) {
-      console.log('valid input');
-    } else {
-      console.log('invalid input');
-    }
+    return (!isALetter(userInput) && userInput.length === 1);
   }
 
   const checkUserInput = function(letter) {
-    if (isValidUserInput(letter)) {
-      return true;
-    } else {
-      return false;
-    }
+    return isValidUserInput(letter);
   };
 
   return {
     start: startGame,
-    checkInput: checkUserInput
+    checkInput: checkUserInput,
+    subtract: subtractLife
   };
 })();
