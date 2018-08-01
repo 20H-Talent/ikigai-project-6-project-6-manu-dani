@@ -73,13 +73,13 @@ function showFail(failedLetters) {
     div.setAttribute('class', 'letter warning');
     div.innerText = letter;
     failedContainer.appendChild(div);
-  })
-  // failedContainer.innerHTML += `<div class="letter warning">${letter}</div>`;
+  });
 }
 
 function checkLetter() {
   const letter = input.value[input.value.length - 1];
   const indexes = wheel.checkInput(letter);
+  const failedLetters = wheel.state.failed;
   if (indexes.length >= 1) {
     console.log(indexes);
     showLetter(indexes, letter, "success");
@@ -87,7 +87,7 @@ function checkLetter() {
     if (isGameWon()) {
       finishGame("win");
     }
-  } else {
+  } else if (!failedLetters.includes(letter)) {
     wheel.subtract();
     document.querySelector("#life-number").textContent = wheel.state.lifes;
     if (wheel.state.lifes === 0) {
