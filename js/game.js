@@ -1,52 +1,66 @@
-console.log(wheel.start());
+const input = document.querySelector("#fake-input");
+const btnPrimary = document.querySelector("#btn-primary");
+const modal = document.querySelector(".modal");
+const gameFrame = document.querySelector(".game-frame");
+const display = document.querySelector(".phrase-display");
+const desktopKeys = document.querySelectorAll(".keyboard-letter");
+const failedContainer = document.querySelector(".failed-display");
 
-const input = document.querySelector('#fake-input');
-const btnPrimary = document.querySelector('#btn-primary');
-const modal = document.querySelector('.modal');
-const gameFrame = document.querySelector('.game-frame');
-const display = document.querySelector('.phrase-display');
-const desktopKeys = document.querySelectorAll('.keyboard-letter');
-const failedContainer = document.querySelector('.failed-display');
-
-btnPrimary.addEventListener('click', showKeyboard);
-gameFrame.addEventListener('click', showKeyboard);
-input.addEventListener('input', checkLetter);
-desktopKeys.forEach( key => key.addEventListener('click', () => addLetterToInput(key.dataset.key)));
+btnPrimary.addEventListener("click", startGame);
+gameFrame.addEventListener("click", showKeyboard);
+input.addEventListener("input", checkLetter);
+desktopKeys.forEach(key =>
+  key.addEventListener("click", () => addLetterToInput(key.dataset.key))
+);
 
 // Display phrase letters on the page
-const renderPhrase = (phrase) => {
-  phrase.map( (letter, index) => {
-    display.innerHTML += `<div class="${letter.character == ' ' ? 'empty' : 'letter'}" data-index="${index}">${letter.hidden ? '' : letter.character}</div>`;
+const renderPhrase = phrase => {
+  toggleModal();
+  display.innerHTML = "";
+
+  phrase.map((letter, index) => {
+    display.innerHTML += `<div class="${
+      letter.character == " " ? "empty" : "letter"
+    }" data-index="${index}">${letter.hidden ? "" : letter.character}</div>`;
   });
+};
+
+function startGame(event) {
+  wheel.start();
+  renderPhrase(wheel.state.phrase);
+  document.querySelector("#life-number").textContent = wheel.state.lifes;
+}
+function showKeyboard() {
+  input.focus();
 }
 
-function showKeyboard() {
-  modal.classList.add('hide');
-  input.focus();
+function toggleModal() {
+  modal.classList.toggle("hide");
 }
 
 function showLetter(indexes, letter, status) {
   console.log(`letter "${letter}", at positions ${indexes}`);
-  const keyboardLetter = document.querySelector(`.keyboard-letter[data-key="${letter}"]`);
+  const keyboardLetter = document.querySelector(
+    `.keyboard-letter[data-key="${letter}"]`
+  );
 
-
-  if (status === 'success') {
+  if (status === "success") {
     const phraseLetters = document.querySelectorAll(`.letter`);
     const correctLetters = [];
 
-    phraseLetters.forEach( char => {
+    phraseLetters.forEach(char => {
       if (indexes.includes(parseInt(char.dataset.index))) {
         correctLetters.push(char);
       }
     });
 
-    correctLetters.forEach( char => {
-      char.innerHTML = letter
-      char.classList.add('success');
+    correctLetters.forEach(char => {
+      char.innerHTML = letter;
+      char.classList.add("success");
     });
-    keyboardLetter.classList.add('success');
-  } else if (status === 'warning') {
-    keyboardLetter.classList.add('warning');
+    keyboardLetter.classList.add("success");
+  } else if (status === "warning") {
+    keyboardLetter.classList.add("warning");
   }
 }
 
@@ -60,11 +74,18 @@ function checkLetter() {
   const indexes = wheel.checkInput(letter);
   if (indexes.length >= 1) {
     console.log(indexes);
-    showLetter(indexes, letter, 'success');
+    showLetter(indexes, letter, "success");
     // input.value = '';
+    if (isGameWon()) {
+      finishGame("win");
+    }
   } else {
     wheel.subtract();
-    showLetter(null, letter, 'warning');
+    document.querySelector("#life-number").textContent = wheel.state.lifes;
+    if (wheel.state.lifes === 0) {
+      finishGame();
+    }
+    showLetter(null, letter, "warning");
     wheel.state.failed.push(letter);
     showFail(letter);
   }
@@ -75,5 +96,35 @@ function addLetterToInput(key) {
   checkLetter();
 }
 
-wheel.updateLifes();
-renderPhrase(wheel.state.phrase);
+function finishGame(status) {
+  if (status === "win") {
+    modal.classList.add("success");
+    toggleModal();
+
+    const h1 = modal.children[0];
+    const button = modal.children[1];
+    h1.innerText = "YOU WIN :)";
+    button.innerText = "Restart game";
+  } else {
+    modal.classList.add("warning");
+    toggleModal();
+
+    const h1 = modal.children[0];
+    const button = modal.children[1];
+    h1.innerText = "YOU LOST :(";
+    button.innerText = "Restart game";
+  }
+}
+
+function isGameWon() {
+  const phrase = wheel.state.phrase;
+  const phraseLength = phrase.length;
+  const lettersFiltered = wheel.state.phrase.filter(letter => !letter.hidden);
+  console.log(
+    phraseLength,
+    lettersFiltered,
+    phrase.length,
+    lettersFiltered.length
+  );
+  return phrase.length === lettersFiltered.length;
+}

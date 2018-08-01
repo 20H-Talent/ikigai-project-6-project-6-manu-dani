@@ -36,7 +36,7 @@ const wheel = (function() {
     const randomPhrase =
       phrases[Math.floor(Math.random() * phrases.length - 1) + 1].phrase;
     return randomPhrase.split("").map(character => {
-      return { character, hidden: true };
+      return { character, hidden: character === " " ? false : true };
     });
   };
 
@@ -55,12 +55,7 @@ const wheel = (function() {
 
   const subtractLife = () => {
     if (gameState.lifes > 0) gameState.lifes--;
-    updateLifesCounter();
-  }
-
-  const updateLifesCounter = () => {
-    document.querySelector('#life-number').textContent = gameState.lifes;
-  }
+  };
 
   const isValidUserInput = userInput => {
     const isALetter = str => /[^a-zA-Z]+/.test(str);
@@ -81,7 +76,7 @@ const wheel = (function() {
     phrase.forEach((content, index) => {
       const { character, hidden } = content;
       if (hidden && letter === character) {
-        gameState["phrase"][index]['hidden'] = false;
+        gameState["phrase"][index]["hidden"] = false;
         characterIndex.push(index);
       }
     });
@@ -92,7 +87,6 @@ const wheel = (function() {
     start: startGame,
     checkInput: checkUserInput,
     subtract: subtractLife,
-    state: gameState,
-    updateLifes: updateLifesCounter
+    state: gameState
   };
 })();
