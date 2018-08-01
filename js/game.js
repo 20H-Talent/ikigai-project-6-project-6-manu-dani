@@ -29,6 +29,8 @@ function startGame(event) {
   wheel.start();
   renderPhrase(wheel.state.phrase);
   document.querySelector("#life-number").textContent = wheel.state.lifes;
+  desktopKeys.forEach ( key => key.classList.remove('success', 'warning'));
+  showFail(wheel.state.failed);
 }
 function showKeyboard() {
   input.focus();
@@ -64,8 +66,14 @@ function showLetter(indexes, letter, status) {
   }
 }
 
-function showFail(letter) {
-  failedContainer.innerHTML += `<div class="letter warning">${letter}</div>`;
+function showFail(failedLetters) {
+  failedContainer.innerHTML = ' ';
+  failedLetters.map( letter => {
+    const div = document.createElement('div');
+    div.setAttribute('class', 'letter warning');
+    div.innerText = letter;
+    failedContainer.appendChild(div);
+  });
 }
 
 function checkLetter() {
@@ -87,7 +95,7 @@ function checkLetter() {
     }
     showLetter(null, letter, "warning");
     wheel.state.failed.push(letter);
-    showFail(letter);
+    showFail(wheel.state.failed);
   }
 }
 
