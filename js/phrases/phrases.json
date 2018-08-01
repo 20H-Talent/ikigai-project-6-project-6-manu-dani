@@ -1,8 +1,38 @@
-[
-  {
-    "phrase": "soy una frase de prueba"
-  },
-  {
-    "phrase": "otra frase por aqui"
-  }
-]
+{
+  "easy": [
+    "Shop Anytime",
+    "See The World",
+    "Save The Date",
+    "Run For Cover",
+    "Make Your Bed",
+    "Love Is Blind",
+    "Living Proof",
+    "Lets Hang Out",
+    "My Big Chance",
+    "Old And Wiser"
+  ],
+  "medium": [
+    "Exciting Speech",
+    "Dont Pop Your Gum",
+    "Behind The Scenes",
+    "Believe It Or Not",
+    "Better Than Ever",
+    "Bridging The Gap",
+    "Caught In The Act",
+    "Desert Paradise",
+    "Easy To Assemble",
+    "Sit Back And Relax"
+  ],
+  "hard": [
+    "My Patience Is Growing Thin",
+    "Money Is The Root Of All Evil",
+    "Looking Over Your Shoulder",
+    "Getting Better All The Time",
+    "You Look Like A Million Bucks",
+    "Two Heads Are Better Than One",
+    "The Customer Is Always Right",
+    "Not Just Another Pretty Face",
+    "Please Fasten Your Seat Belts",
+    "Liberty Equality Fraternity"
+  ]
+}
