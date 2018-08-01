@@ -2,7 +2,12 @@ const wheel = (function() {
   const gameState = {};
 
   const startGame = (
-    gameData = { lifes: 5, difficulty: "easy", ia: "false", failed: [] }
+    gameData = {
+      lifes: 5,
+      difficulty: "easy",
+      versus: "individual",
+      failed: []
+    }
   ) => {
     if (gameData instanceof Object && Object.keys(gameData).length >= 0) {
       Object.assign(gameState, gameData);
@@ -26,17 +31,14 @@ const wheel = (function() {
   };
 
   const randomQueryGenerator = function() {
-    const phrases = gameState["phrases"];
-    console.log(
-      "PHRASES: ",
-      phrases,
-      phrases.length,
-      Math.floor(Math.random() * phrases.length - 1)
-    );
+    const phrases = gameState["phrases"][gameState["difficulty"]];
     const randomPhrase =
-      phrases[Math.floor(Math.random() * phrases.length - 1) + 1].phrase;
+      phrases[Math.floor(Math.random() * phrases.length - 1) + 1];
     return randomPhrase.split("").map(character => {
-      return { character, hidden: character === " " ? false : true };
+      return {
+        character: character.toLowerCase(),
+        hidden: character === " " ? false : true
+      };
     });
   };
 
