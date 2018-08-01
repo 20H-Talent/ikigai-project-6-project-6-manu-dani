@@ -6,6 +6,7 @@ const modal = document.querySelector('.modal');
 const gameFrame = document.querySelector('.game-frame');
 const display = document.querySelector('.phrase-display');
 const desktopKeys = document.querySelectorAll('.keyboard-letter');
+const failedContainer = document.querySelector('.failed-display');
 
 btnPrimary.addEventListener('click', showKeyboard);
 gameFrame.addEventListener('click', showKeyboard);
@@ -49,6 +50,11 @@ function showLetter(indexes, letter, status) {
   }
 }
 
+function showFail(letter) {
+  console.log(letter);
+  failedContainer.innerHTML += `<div class="letter warning">${letter}</div>`;
+}
+
 function checkLetter() {
   const letter = input.value[input.value.length - 1];
   if (wheel.checkInput(letter).length >= 1) {
@@ -57,9 +63,9 @@ function checkLetter() {
     // input.value = '';
   } else {
     wheel.subtract();
-    wheel.state.failed.push(letter);
     showLetter(null, letter, 'warning');
-    // input.value = '';
+    wheel.state.failed.push(letter);
+    showFail(letter);
   }
 }
 
