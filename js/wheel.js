@@ -31,15 +31,9 @@ const wheel = (function() {
   };
 
   const randomQueryGenerator = function() {
-    const phrases = gameState["phrases"];
-    console.log(
-      "PHRASES: ",
-      phrases,
-      phrases.length,
-      Math.floor(Math.random() * phrases.length - 1)
-    );
+    const phrases = gameState["phrases"][gameState["difficulty"]];
     const randomPhrase =
-      phrases[Math.floor(Math.random() * phrases.length - 1) + 1].phrase;
+      phrases[Math.floor(Math.random() * phrases.length - 1) + 1];
     return randomPhrase.split("").map(character => {
       return {
         character: character.toLowerCase(),
