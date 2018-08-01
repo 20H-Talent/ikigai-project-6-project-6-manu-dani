@@ -128,6 +128,17 @@ body {
   background-color: var(--color-success);
 }
 
+.warning {
+  background-color: var(--color-warning);
+}
+
+.failed-display {
+  width: 60%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
 #fake-input {
   position: absolute;
   height: 18px;
