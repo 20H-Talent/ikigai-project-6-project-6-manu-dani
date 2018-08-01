@@ -2,7 +2,12 @@ const wheel = (function() {
   const gameState = {};
 
   const startGame = (
-    gameData = { lifes: 5, difficulty: "easy", ia: "false", failed: [] }
+    gameData = {
+      lifes: 5,
+      difficulty: "easy",
+      versus: "individual",
+      failed: []
+    }
   ) => {
     if (gameData instanceof Object && Object.keys(gameData).length >= 0) {
       Object.assign(gameState, gameData);
@@ -36,7 +41,10 @@ const wheel = (function() {
     const randomPhrase =
       phrases[Math.floor(Math.random() * phrases.length - 1) + 1].phrase;
     return randomPhrase.split("").map(character => {
-      return { character, hidden: character === " " ? false : true };
+      return {
+        character: character.toLowerCase(),
+        hidden: character === " " ? false : true
+      };
     });
   };
 

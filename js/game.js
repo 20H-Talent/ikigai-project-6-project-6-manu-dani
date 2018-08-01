@@ -26,11 +26,36 @@ const renderPhrase = phrase => {
 };
 
 function startGame(event) {
-  wheel.start();
+  const options = getUserSelections();
+  wheel.start(options);
   renderPhrase(wheel.state.phrase);
   document.querySelector("#life-number").textContent = wheel.state.lifes;
-  desktopKeys.forEach ( key => key.classList.remove('success', 'warning'));
+  desktopKeys.forEach(key => key.classList.remove("success", "warning"));
   showFail(wheel.state.failed);
+}
+
+function getUserSelections() {
+  const select = document.querySelectorAll("select");
+  const options = { failed: [] };
+  const selections = Array.from(select).map(selection => {
+    options[selection.getAttribute("name")] = selection.value;
+  });
+  options["lifes"] = lifesBasedOnDifficulty(options["difficulty"]);
+  return options;
+}
+
+function lifesBasedOnDifficulty(level) {
+  switch (level) {
+    case "easy":
+      return 5;
+      break;
+    case "normal":
+      return 4;
+      break;
+    case "hard":
+      return 3;
+      break;
+  }
 }
 function showKeyboard() {
   input.focus();
@@ -67,10 +92,10 @@ function showLetter(indexes, letter, status) {
 }
 
 function showFail(failedLetters) {
-  failedContainer.innerHTML = ' ';
-  failedLetters.map( letter => {
-    const div = document.createElement('div');
-    div.setAttribute('class', 'letter warning');
+  failedContainer.innerHTML = " ";
+  failedLetters.map(letter => {
+    const div = document.createElement("div");
+    div.setAttribute("class", "letter warning");
     div.innerText = letter;
     failedContainer.appendChild(div);
   });

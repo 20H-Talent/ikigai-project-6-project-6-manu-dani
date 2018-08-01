@@ -14,6 +14,18 @@
 <body>
   <div class="modal">
     <h1>wheel of success</h1>
+    <label for="difficulty"> Nivel de dificultad</label>
+    <select name="difficulty" id="levels">
+      <option value="easy">Fácil</option>
+      <option value="normal">Normal</option>
+      <option value="hard">Hard</option>
+    </select>
+    <label for="versus">Modo de juego</label>
+    <select name="versus" id="versus-who">
+      <option value="individual">Individual</option>
+      <option value="ia" disabled>Contra la máquina</option>
+      <option value="multiplayer" disabled>Multijugador</option>
+    </select>
     <button id="btn-primary">Start Game</button>
   </div>
   <div class="game-frame">
