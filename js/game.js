@@ -57,8 +57,9 @@ function showFail(letter) {
 
 function checkLetter() {
   const letter = input.value[input.value.length - 1];
-  if (wheel.checkInput(letter).length >= 1) {
-    const indexes = wheel.checkInput(letter);
+  const indexes = wheel.checkInput(letter);
+  if (indexes.length >= 1) {
+    console.log(indexes);
     showLetter(indexes, letter, 'success');
     // input.value = '';
   } else {

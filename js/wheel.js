@@ -81,7 +81,7 @@ const wheel = (function() {
     phrase.forEach((content, index) => {
       const { character, hidden } = content;
       if (hidden && letter === character) {
-        gameState["phrase"][index][hidden] = false;
+        gameState["phrase"][index]['hidden'] = false;
         characterIndex.push(index);
       }
     });
