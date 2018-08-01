@@ -5,10 +5,12 @@ const btnPrimary = document.querySelector('#btn-primary');
 const modal = document.querySelector('.modal');
 const gameFrame = document.querySelector('.game-frame');
 const display = document.querySelector('.phrase-display');
+const desktopKeys = document.querySelectorAll('.keyboard-letter');
 
 btnPrimary.addEventListener('click', showKeyboard);
 gameFrame.addEventListener('click', showKeyboard);
 input.addEventListener('input', checkLetter);
+desktopKeys.forEach( key => key.addEventListener('click', () => addLetterToInput(key.dataset.key)));
 
 // Display phrase letters on the page
 const renderPhrase = (phrase) => {
@@ -59,6 +61,11 @@ function checkLetter() {
     showLetter(null, letter, 'warning');
     // input.value = '';
   }
+}
+
+function addLetterToInput(key) {
+  input.value = key;
+  checkLetter();
 }
 
 wheel.updateLifes();
