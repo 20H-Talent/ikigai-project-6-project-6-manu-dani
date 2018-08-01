@@ -153,11 +153,5 @@ function isGameWon() {
   const phrase = wheel.state.phrase;
   const phraseLength = phrase.length;
   const lettersFiltered = wheel.state.phrase.filter(letter => !letter.hidden);
-  console.log(
-    phraseLength,
-    lettersFiltered,
-    phrase.length,
-    lettersFiltered.length
-  );
   return phrase.length === lettersFiltered.length;
 }
