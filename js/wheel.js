@@ -31,6 +31,7 @@ const wheel = (function() {
   };
 
   const randomQueryGenerator = function() {
+    console.log(gameState["difficulty"]);
     const phrases = gameState["phrases"][gameState["difficulty"]];
     const randomPhrase =
       phrases[Math.floor(Math.random() * phrases.length - 1) + 1];

@@ -130,22 +130,18 @@ function addLetterToInput(key) {
 }
 
 function finishGame(status) {
+  const h1 = modal.querySelector("h1");
+  const button = modal.querySelector("button");
   if (status === "win") {
     modal.classList.add("success");
     toggleModal();
-
-    const h1 = modal.children[0];
-    const button = modal.children[1];
     h1.innerText = "YOU WIN :)";
     button.innerText = "Restart game";
   } else {
     modal.classList.add("warning");
     toggleModal();
-
-    const h1 = modal.children[0];
-    const button = modal.children[1];
     h1.innerText = "YOU LOST :(";
-    button.innerText = "Restart game";
+    button.textContent = "Restart game";
   }
 }
 
