@@ -37,6 +37,7 @@ body {
   justify-content: center;
   align-items: center;
   transition: transform 500ms ease-out;
+  z-index: 999;
 }
 .modal.warning {
   background-color: var(--color-warning);
@@ -112,16 +113,12 @@ body {
   width: 80%;
   height: auto;
   margin-top: 25px;
-  /* display: grid;
-  grid-template-columns: repeat(autofill, 30px);
-  grid-template-rows: repeat(autofill, minmax(1fr, 30px));
-  grid-gap: 3px; */
   display: flex;
   flex-wrap: wrap;
 }
 
-.letter {
-  background-color: var(--color-primary);
+.letter-container {
+  position: relative;
   border-radius: 3px;
   display: flex;
   justify-content: center;
@@ -132,6 +129,32 @@ body {
   min-width: 30px;
   min-height: 30px;
   margin: 2px;
+  transition: transform .5s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+.letter-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    backface-visibility: hidden;
+}
+
+.letter-face-front {
+  background-color: var(--color-primary);
+}
+
+.letter-face-back {
+  background-color: var(--color-success);
+  transform: rotateY(180deg)
+}
+
+.show-backface {
+  transform: rotateY(180deg);
 }
 
 .empty {
@@ -148,11 +171,27 @@ body {
   background-color: var(--color-warning);
 }
 
+.warning-letter {
+  background-color: var(--color-warning);
+
+  animation: showFail 500ms ease-out 1;
+}
+
+@keyframes showFail {
+  from {
+    transform: rotateX(90deg);
+  }
+  to {
+    transform: rotateX(0);
+  }
+}
+
 .failed-display {
   width: 60%;
   margin-top: 20px;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 #fake-input {
@@ -167,10 +206,14 @@ body {
     width: 60%;
     margin-top: 40px;
   }
-  .letter {
+  .letter-container {
     min-width: 50px;
     min-height: 50px;
     margin: 5px;
+  }
+  .empty {
+    min-width: 50px;
+    min-height: 50px;
   }
 }
 
@@ -205,6 +248,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
 
   .keyboard-letter.success {

@@ -26,13 +26,24 @@ function setGameSounds() {
 
 // Game Logic
 const renderPhrase = (phrase = []) => {
-  toggleModal();
+  toggleModal(null, "WHEEL OF SUCCESS", "Start game");
   display.innerHTML = "";
 
   phrase.map((letter, index) => {
-    display.innerHTML += `<div class="${
-      letter.character == " " ? "empty" : "letter"
-    }" data-index="${index}">${letter.hidden ? "" : letter.character}</div>`;
+    if (letter.character !== ' ') {
+      display.innerHTML += (`
+      <div class="letter-container" data-index="${index}">
+        <div class="letter-face letter-face-front"></div>
+        <div class="letter-face letter-face-back"></div>
+      </div>
+      `);
+    } else {
+      display.innerHTML += (`
+      <div class="letter empty"}" data-index="${index}">
+      </div>
+      `);
+    }
+
   });
 };
 
@@ -40,11 +51,6 @@ function startGame(event) {
   sound["click"].play();
   wheel.startGame(getUserSelections(), renderPhrase);
   const gameState = wheel.getGameState();
-  /*
-  setTimeout(() => {
-    renderPhrase(gameState["phrase"]);
-  }, 150);
-  */
   document.querySelector("#life-number").textContent = gameState["lifes"];
   desktopKeys.forEach(key => key.classList.remove("success", "warning"));
   showFail(gameState["failed"]);
@@ -79,8 +85,11 @@ function showKeyboard() {
   input.focus();
 }
 
-function toggleModal() {
-  modal.classList.toggle("hide");
+function toggleModal(sound, message, buttonText) {
+  if (sound) sound.play();
+  window.setTimeout( () => { modal.classList.toggle("hide"); }, 400);
+  modal.querySelector("h1").innerText = message;
+  modal.querySelector("button").innerText = buttonText;
 }
 
 function showLetter(indexes, letter, status) {
@@ -89,7 +98,7 @@ function showLetter(indexes, letter, status) {
   );
 
   if (status === "success") {
-    const phraseLetters = document.querySelectorAll(`.letter`);
+    const phraseLetters = document.querySelectorAll(`.letter-container`);
     const correctLetters = [];
 
     phraseLetters.forEach(char => {
@@ -99,8 +108,8 @@ function showLetter(indexes, letter, status) {
     });
 
     correctLetters.forEach(char => {
-      char.innerHTML = letter;
-      char.classList.add("success");
+      char.querySelector('.letter-face-back').innerHTML = letter;
+      char.classList.add("show-backface");
     });
     keyboardLetter.classList.add("success");
   } else if (status === "warning") {
@@ -111,7 +120,10 @@ function showLetter(indexes, letter, status) {
 function showFail(failedLetters) {
   failedContainer.innerHTML = " ";
   failedLetters.map(letter => {
-    generateFailedLetter(letter);
+    const div = document.createElement("div");
+    div.setAttribute("class", "letter-container warning-letter");
+    div.innerText = letter;
+    failedContainer.appendChild(div);
   });
 }
 
@@ -130,7 +142,7 @@ function checkLetter() {
 
   if (indexes.length >= 1) {
     showLetter(indexes, letter, "success");
-    sound["show"];
+    sound["show"].play();
     if (isGameWon(gameState)) {
       finishGame("win");
     }
@@ -154,22 +166,14 @@ function addLetterToInput(key) {
 }
 
 function finishGame(status) {
-  const h1 = modal.querySelector("h1");
-  const button = modal.querySelector("button");
   if (status === "win") {
     modal.classList.remove("warning");
     modal.classList.add("success");
-    toggleModal();
-    sound["win"].play();
-    h1.innerText = "YOU WIN :)";
-    button.innerText = "Restart game";
+    toggleModal( sound["win"], 'YOU WIN! :)', "Restart game");
   } else {
     modal.classList.remove("success");
     modal.classList.add("warning");
-    toggleModal();
-    sound["lose"].play();
-    h1.innerText = "YOU LOST :(";
-    button.textContent = "Restart game";
+    toggleModal(sound["lose"], "YOU LOST :(", "Restart game");
   }
 }
 
