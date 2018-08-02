@@ -23,7 +23,7 @@ desktopKeys.forEach(key =>
 
 // Game Logic
 const renderPhrase = phrase => {
-  toggleModal();
+  toggleModal(null, "WHEEL OF SUCCESS", "Start game");
   display.innerHTML = "";
 
   phrase.map((letter, index) => {
@@ -83,8 +83,11 @@ function showKeyboard() {
   input.focus();
 }
 
-function toggleModal() {
-  modal.classList.toggle("hide");
+function toggleModal(sound, message, buttonText) {
+  if (sound) sound.play();
+  window.setTimeout( () => { modal.classList.toggle("hide"); }, 400);
+  modal.querySelector("h1").innerText = message;
+  modal.querySelector("button").innerText = buttonText;
 }
 
 function showLetter(indexes, letter, status) {
@@ -152,22 +155,22 @@ function addLetterToInput(key) {
 }
 
 function finishGame(status) {
-  const h1 = modal.querySelector("h1");
-  const button = modal.querySelector("button");
+  // const h1 = modal.querySelector("h1");
+  // const button = modal.querySelector("button");
   if (status === "win") {
     modal.classList.remove("warning");
     modal.classList.add("success");
-    toggleModal();
-    winSound.play();
-    h1.innerText = "YOU WIN :)";
-    button.innerText = "Restart game";
+    toggleModal( winSound, 'YOU WIN! :)', "Restart game");
+    // winSound.play();
+    // h1.innerText = "YOU WIN :)";
+    // button.innerText = "Restart game";
   } else {
     modal.classList.remove("success");
     modal.classList.add("warning");
-    toggleModal();
-    loseSound.play();
-    h1.innerText = "YOU LOST :(";
-    button.textContent = "Restart game";
+    toggleModal(loseSound, "YOU LOST :(", "Restart game");
+    // loseSound.play();
+    // h1.innerText = "YOU LOST :(";
+    // button.textContent = "Restart game";
   }
 }
 
