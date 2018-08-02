@@ -1,14 +1,16 @@
 const wheel = (function() {
   const gameState = {};
 
-  const startGame = (
-    gameData = {
-      lifes: 5,
-      difficulty: "easy",
-      versus: "individual",
-      failed: []
-    }
-  ) => {
+  const getGameState = () => {
+    return gameState;
+  };
+
+  const setFailedLetter = letter => {
+    gameState["failed"].push(letter);
+    return gameState["failed"];
+  };
+
+  const startGame = gameData => {
     if (gameData instanceof Object && Object.keys(gameData).length >= 0) {
       Object.assign(gameState, gameData);
       if (!localStorage.getItem("phrases")) {
@@ -91,6 +93,7 @@ const wheel = (function() {
     start: startGame,
     checkInput: checkUserInput,
     subtract: subtractLife,
-    state: gameState
+    getGameState,
+    setFailedLetter
   };
 })();

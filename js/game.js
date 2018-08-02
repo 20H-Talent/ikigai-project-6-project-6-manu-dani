@@ -5,14 +5,6 @@ const gameFrame = document.querySelector(".game-frame");
 const display = document.querySelector(".phrase-display");
 const desktopKeys = document.querySelectorAll(".keyboard-letter");
 const failedContainer = document.querySelector(".failed-display");
-
-// Game sounds
-const clickSound = document.querySelector('#click-sound');
-const failSound = document.querySelector('#fail-sound');
-const showSound = document.querySelector('#show-sound');
-const loseSound = document.querySelector('#lose-sound');
-const winSound = document.querySelector('#win-sound');
-
 // Event listeners
 btnPrimary.addEventListener("click", startGame);
 gameFrame.addEventListener("click", showKeyboard);
@@ -20,6 +12,17 @@ input.addEventListener("input", checkLetter);
 desktopKeys.forEach(key =>
   key.addEventListener("click", () => addLetterToInput(key.dataset.key))
 );
+
+// Game sounds
+const sound = setGameSounds();
+function setGameSounds() {
+  const sound = {};
+  const actions = ["click", "fail", "show", "lose", "win"];
+  actions.forEach(action => {
+    sound[action] = document.querySelector(`#${action}-sound`);
+  });
+  return;
+}
 
 // Game Logic
 const renderPhrase = phrase => {
@@ -34,15 +37,15 @@ const renderPhrase = phrase => {
 };
 
 function startGame(event) {
-  clickSound.play();
-  const options = getUserSelections();
-  wheel.start(options);
+  sound["click"].play();
+  wheel.start(getUserSelections());
+  const gameState = wheel.getGameState();
   setTimeout(() => {
-    renderPhrase(wheel.state.phrase);
+    renderPhrase(gameState["phrase"]);
   }, 150);
-  document.querySelector("#life-number").textContent = wheel.state.lifes;
+  document.querySelector("#life-number").textContent = gameState["lifes"];
   desktopKeys.forEach(key => key.classList.remove("success", "warning"));
-  showFail(wheel.state.failed);
+  showFail(gameState["failed"]);
 }
 
 function getUserSelections() {
@@ -56,17 +59,19 @@ function getUserSelections() {
 }
 
 function lifesBasedOnDifficulty(level) {
+  let lifes;
   switch (level) {
     case "easy":
-      return 5;
+      lifes = 5;
       break;
     case "normal":
-      return 4;
+      lifes = 4;
       break;
     case "hard":
-      return 3;
+      lifes = 3;
       break;
   }
+  return lifes;
 }
 function showKeyboard() {
   input.focus();
@@ -104,38 +109,44 @@ function showLetter(indexes, letter, status) {
 function showFail(failedLetters) {
   failedContainer.innerHTML = " ";
   failedLetters.map(letter => {
-    const div = document.createElement("div");
-    div.setAttribute("class", "letter warning");
-    div.innerText = letter;
-    failedContainer.appendChild(div);
+    generateFailedLetter(letter);
   });
 }
 
+function generateFailedLetter(letter) {
+  const div = document.createElement("div");
+  div.setAttribute("class", "letter warning");
+  div.innerText = letter;
+  failedContainer.appendChild(div);
+}
+
 function checkLetter() {
+  const gameState = wheel.getGameState();
   const letter = input.value[input.value.length - 1];
   const indexes = wheel.checkInput(letter);
-  const failedLetters = wheel.state.failed;
+  const failedLetters = gameState["failed"];
+
   if (indexes.length >= 1) {
     showLetter(indexes, letter, "success");
-    showSound.play();
-    if (isGameWon()) {
+    sound["show"];
+    if (isGameWon(gameState)) {
       finishGame("win");
     }
   } else if (!failedLetters.includes(letter)) {
     wheel.subtract();
-    document.querySelector("#life-number").textContent = wheel.state.lifes;
-    if (wheel.state.lifes === 0) {
+    document.querySelector("#life-number").textContent = gameState["lifes"];
+    if (gameState["lifes"] === 0) {
       finishGame();
     }
     showLetter(null, letter, "warning");
-    wheel.state.failed.push(letter);
-    showFail(wheel.state.failed);
-    failSound.play();
+    const failedLettersUpdated = wheel.setFailedLetter(letter);
+    showFail(failedLettersUpdated);
+    sound["fail"].play();
   }
 }
 
 function addLetterToInput(key) {
-  clickSound.play();
+  sound["click"].play();
   input.value = key;
   checkLetter();
 }
@@ -147,22 +158,21 @@ function finishGame(status) {
     modal.classList.remove("warning");
     modal.classList.add("success");
     toggleModal();
-    winSound.play();
+    sound["win"].play();
     h1.innerText = "YOU WIN :)";
     button.innerText = "Restart game";
   } else {
     modal.classList.remove("success");
     modal.classList.add("warning");
     toggleModal();
-    loseSound.play();
+    sound["lose"].play();
     h1.innerText = "YOU LOST :(";
     button.textContent = "Restart game";
   }
 }
 
-function isGameWon() {
-  const phrase = wheel.state.phrase;
-  const phraseLength = phrase.length;
-  const lettersFiltered = wheel.state.phrase.filter(letter => !letter.hidden);
+function isGameWon(gameState) {
+  const phrase = gameState["phrase"];
+  const lettersFiltered = phrase.filter(letter => !letter.hidden);
   return phrase.length === lettersFiltered.length;
 }
