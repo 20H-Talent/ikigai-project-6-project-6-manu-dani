@@ -6,6 +6,14 @@ const display = document.querySelector(".phrase-display");
 const desktopKeys = document.querySelectorAll(".keyboard-letter");
 const failedContainer = document.querySelector(".failed-display");
 
+// Game sounds
+const clickSound = document.querySelector('#click-sound');
+const failSound = document.querySelector('#fail-sound');
+const showSound = document.querySelector('#show-sound');
+const loseSound = document.querySelector('#lose-sound');
+const winSound = document.querySelector('#win-sound');
+
+// Event listeners
 btnPrimary.addEventListener("click", startGame);
 gameFrame.addEventListener("click", showKeyboard);
 input.addEventListener("input", checkLetter);
@@ -13,7 +21,7 @@ desktopKeys.forEach(key =>
   key.addEventListener("click", () => addLetterToInput(key.dataset.key))
 );
 
-// Display phrase letters on the page
+// Game Logic
 const renderPhrase = phrase => {
   toggleModal();
   display.innerHTML = "";
@@ -26,6 +34,7 @@ const renderPhrase = phrase => {
 };
 
 function startGame(event) {
+  clickSound.play();
   const options = getUserSelections();
   wheel.start(options);
   setTimeout(() => {
@@ -108,7 +117,7 @@ function checkLetter() {
   const failedLetters = wheel.state.failed;
   if (indexes.length >= 1) {
     showLetter(indexes, letter, "success");
-    // input.value = '';
+    showSound.play();
     if (isGameWon()) {
       finishGame("win");
     }
@@ -121,10 +130,12 @@ function checkLetter() {
     showLetter(null, letter, "warning");
     wheel.state.failed.push(letter);
     showFail(wheel.state.failed);
+    failSound.play();
   }
 }
 
 function addLetterToInput(key) {
+  clickSound.play();
   input.value = key;
   checkLetter();
 }
@@ -133,13 +144,17 @@ function finishGame(status) {
   const h1 = modal.querySelector("h1");
   const button = modal.querySelector("button");
   if (status === "win") {
+    modal.classList.remove("warning");
     modal.classList.add("success");
     toggleModal();
+    winSound.play();
     h1.innerText = "YOU WIN :)";
     button.innerText = "Restart game";
   } else {
+    modal.classList.remove("success");
     modal.classList.add("warning");
     toggleModal();
+    loseSound.play();
     h1.innerText = "YOU LOST :(";
     button.textContent = "Restart game";
   }
