@@ -25,7 +25,7 @@ function setGameSounds() {
 }
 
 // Game Logic
-const renderPhrase = phrase => {
+const renderPhrase = (phrase = []) => {
   toggleModal();
   display.innerHTML = "";
 
@@ -38,11 +38,13 @@ const renderPhrase = phrase => {
 
 function startGame(event) {
   sound["click"].play();
-  wheel.startGame(getUserSelections());
+  wheel.startGame(getUserSelections(), renderPhrase);
   const gameState = wheel.getGameState();
+  /*
   setTimeout(() => {
     renderPhrase(gameState["phrase"]);
   }, 150);
+  */
   document.querySelector("#life-number").textContent = gameState["lifes"];
   desktopKeys.forEach(key => key.classList.remove("success", "warning"));
   showFail(gameState["failed"]);

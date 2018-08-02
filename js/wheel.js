@@ -2,6 +2,7 @@ const wheel = (function() {
   const gameState = {};
 
   const getGameState = () => {
+    const clonedGameState = Object.assign({}, gameState);
     return gameState;
   };
 
@@ -10,7 +11,7 @@ const wheel = (function() {
     return gameState["failed"];
   };
 
-  const startGame = gameData => {
+  const startGame = (gameData, callback) => {
     if (gameData instanceof Object && Object.keys(gameData).length >= 0) {
       Object.assign(gameState, gameData);
       if (!localStorage.getItem("phrases")) {
@@ -18,10 +19,12 @@ const wheel = (function() {
           .then(phrases => {
             localStorage.setItem("phrases", JSON.stringify(phrases));
             prepareGameData(phrases);
+            callback(gameState["phrase"]);
           })
           .catch(err => console.log(err));
       } else {
         prepareGameData();
+        callback(gameState["phrase"]);
       }
     }
   };
@@ -38,12 +41,13 @@ const wheel = (function() {
     const phrases = gameState["phrases"][gameState["difficulty"]];
     const randomPhrase =
       phrases[Math.floor(Math.random() * phrases.length - 1) + 1];
-    return randomPhrase.split("").map(character => {
+    const phraseSplitted = randomPhrase.split("").map(character => {
       return {
         character: character.toLowerCase(),
         hidden: character === " " ? false : true
       };
     });
+    return phraseSplitted;
   };
 
   const fetchPhrases = () => {
