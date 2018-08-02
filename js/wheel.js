@@ -52,10 +52,13 @@ const wheel = (function() {
 
   const fetchPhrases = () => {
     const { host, protocol } = window.location;
-    const url = `${protocol}//${host}/js/phrases/phrases.json`;
+    const url = `${protocol}//${
+      host === "20h-talent.github.io"
+        ? "20h-talent.github.io/ikigai-project-6-project-6-manu-dani"
+        : host
+    }/js/phrases/phrases.json`;
     return fetch(url, {
       method: "GET",
-      mode: "same-origin",
       headers: {
         "Content-Type": "application/json; charset=utf-8"
       },
