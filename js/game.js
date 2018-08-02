@@ -27,9 +27,20 @@ const renderPhrase = phrase => {
   display.innerHTML = "";
 
   phrase.map((letter, index) => {
-    display.innerHTML += `<div class="${
-      letter.character == " " ? "empty" : "letter"
-    }" data-index="${index}">${letter.hidden ? "" : letter.character}</div>`;
+    if (letter.character !== ' ') {
+      display.innerHTML += (`
+      <div class="letter-container" data-index="${index}">
+        <div class="letter-face letter-face-front"></div>
+        <div class="letter-face letter-face-back"></div>
+      </div>
+      `);
+    } else {
+      display.innerHTML += (`
+      <div class="letter empty"}" data-index="${index}">
+      </div>
+      `);
+    }
+
   });
 };
 
@@ -82,7 +93,7 @@ function showLetter(indexes, letter, status) {
   );
 
   if (status === "success") {
-    const phraseLetters = document.querySelectorAll(`.letter`);
+    const phraseLetters = document.querySelectorAll(`.letter-container`);
     const correctLetters = [];
 
     phraseLetters.forEach(char => {
@@ -92,8 +103,8 @@ function showLetter(indexes, letter, status) {
     });
 
     correctLetters.forEach(char => {
-      char.innerHTML = letter;
-      char.classList.add("success");
+      char.querySelector('.letter-face-back').innerHTML = letter;
+      char.classList.add("show-backface");
     });
     keyboardLetter.classList.add("success");
   } else if (status === "warning") {
@@ -105,7 +116,7 @@ function showFail(failedLetters) {
   failedContainer.innerHTML = " ";
   failedLetters.map(letter => {
     const div = document.createElement("div");
-    div.setAttribute("class", "letter warning");
+    div.setAttribute("class", "letter-container warning-letter");
     div.innerText = letter;
     failedContainer.appendChild(div);
   });
