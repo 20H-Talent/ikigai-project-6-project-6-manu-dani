@@ -21,7 +21,7 @@ function setGameSounds() {
   actions.forEach(action => {
     sound[action] = document.querySelector(`#${action}-sound`);
   });
-  return;
+  return sound;
 }
 
 // Game Logic
