@@ -28,7 +28,9 @@ const renderPhrase = phrase => {
 function startGame(event) {
   const options = getUserSelections();
   wheel.start(options);
-  renderPhrase(wheel.state.phrase);
+  setTimeout(() => {
+    renderPhrase(wheel.state.phrase);
+  }, 150);
   document.querySelector("#life-number").textContent = wheel.state.lifes;
   desktopKeys.forEach(key => key.classList.remove("success", "warning"));
   showFail(wheel.state.failed);
@@ -66,7 +68,6 @@ function toggleModal() {
 }
 
 function showLetter(indexes, letter, status) {
-  console.log(`letter "${letter}", at positions ${indexes}`);
   const keyboardLetter = document.querySelector(
     `.keyboard-letter[data-key="${letter}"]`
   );
@@ -106,7 +107,6 @@ function checkLetter() {
   const indexes = wheel.checkInput(letter);
   const failedLetters = wheel.state.failed;
   if (indexes.length >= 1) {
-    console.log(indexes);
     showLetter(indexes, letter, "success");
     // input.value = '';
     if (isGameWon()) {

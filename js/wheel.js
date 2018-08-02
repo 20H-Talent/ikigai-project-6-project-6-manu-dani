@@ -15,7 +15,7 @@ const wheel = (function() {
         fetchPhrases()
           .then(phrases => {
             localStorage.setItem("phrases", JSON.stringify(phrases));
-            prepareGameData();
+            prepareGameData(phrases);
           })
           .catch(err => console.log(err));
       } else {
@@ -24,14 +24,15 @@ const wheel = (function() {
     }
   };
 
-  const prepareGameData = function() {
-    gameState["phrases"] = JSON.parse(localStorage.getItem("phrases"));
+  const prepareGameData = function(phrases = []) {
+    gameState["phrases"] =
+      phrases.length > 0
+        ? phrases
+        : JSON.parse(localStorage.getItem("phrases"));
     gameState["phrase"] = randomQueryGenerator();
-    console.log(gameState);
   };
 
   const randomQueryGenerator = function() {
-    console.log(gameState["difficulty"]);
     const phrases = gameState["phrases"][gameState["difficulty"]];
     const randomPhrase =
       phrases[Math.floor(Math.random() * phrases.length - 1) + 1];
