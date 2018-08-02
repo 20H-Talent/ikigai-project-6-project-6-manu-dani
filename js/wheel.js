@@ -90,9 +90,9 @@ const wheel = (function() {
   };
 
   return {
-    start: startGame,
-    checkInput: checkUserInput,
-    subtract: subtractLife,
+    startGame,
+    checkUserInput,
+    subtractLife,
     getGameState,
     setFailedLetter
   };

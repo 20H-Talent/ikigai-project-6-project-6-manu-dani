@@ -38,7 +38,7 @@ const renderPhrase = phrase => {
 
 function startGame(event) {
   sound["click"].play();
-  wheel.start(getUserSelections());
+  wheel.startGame(getUserSelections());
   const gameState = wheel.getGameState();
   setTimeout(() => {
     renderPhrase(gameState["phrase"]);
@@ -123,7 +123,7 @@ function generateFailedLetter(letter) {
 function checkLetter() {
   const gameState = wheel.getGameState();
   const letter = input.value[input.value.length - 1];
-  const indexes = wheel.checkInput(letter);
+  const indexes = wheel.checkUserInput(letter);
   const failedLetters = gameState["failed"];
 
   if (indexes.length >= 1) {
@@ -133,7 +133,7 @@ function checkLetter() {
       finishGame("win");
     }
   } else if (!failedLetters.includes(letter)) {
-    wheel.subtract();
+    wheel.subtractLife();
     document.querySelector("#life-number").textContent = gameState["lifes"];
     if (gameState["lifes"] === 0) {
       finishGame();
