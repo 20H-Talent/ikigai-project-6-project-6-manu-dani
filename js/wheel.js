@@ -3,7 +3,7 @@ const wheel = (function() {
 
   const getGameState = () => {
     const clonedGameState = Object.assign({}, gameState);
-    return gameState;
+    return clonedGameState;
   };
 
   const setFailedLetter = letter => {
