@@ -104,3 +104,5 @@ const wheel = (function() {
     setFailedLetter
   };
 })();
+
+module.exports = wheel;

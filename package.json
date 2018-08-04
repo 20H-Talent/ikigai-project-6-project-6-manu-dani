@@ -4,7 +4,7 @@
   "description": "In this project, you'll create a browser version of “Wheel of Success”, a word guessing game where players will click letters from an onscreen keyboard to try to guess a random phrase.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --env=node ./tests"
   },
   "repository": {
     "type": "git",
