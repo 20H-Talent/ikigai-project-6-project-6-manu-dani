@@ -85,7 +85,10 @@ function showKeyboard() {
 }
 
 function toggleModal(sound, message, buttonText) {
-  if (sound) sound.play();
+  if (sound) {
+    sound.currentTime = 0;
+    sound.play();
+  }
   window.setTimeout(() => {
     modal.classList.toggle("hide");
   }, 400);
@@ -143,6 +146,7 @@ function checkLetter() {
 
   if (indexes.length >= 1) {
     showLetter(indexes, letter, "success");
+    sound["show"].currentTime = 0;
     sound["show"].play();
     if (isGameWon(gameState)) {
       finishGame("win");
@@ -156,6 +160,7 @@ function checkLetter() {
     showLetter(null, letter, "warning");
     const failedLettersUpdated = wheel.setFailedLetter(letter);
     showFail(failedLettersUpdated);
+    sound["fail"].currentTime = 0;
     sound["fail"].play();
   }
 }
