@@ -18,5 +18,8 @@
   "homepage": "https://github.com/20H-Talent/ikigai-project-6-project-6-manu-dani#readme",
   "dependencies": {
     "jest": "^23.4.2"
+  },
+  "devDependencies": {
+    "cypress": "^3.0.3"
   }
 }
